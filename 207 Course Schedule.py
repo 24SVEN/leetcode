@@ -1,0 +1,126 @@
+from typing import List
+
+class Solution:
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        
+        #key is course | values is prereq
+        rules = {}
+
+        #generate dictionary [AKA Adjacency list?]
+        for pre_req in prerequisites:
+            #pre_req[0] = Course
+            #pre_req[1] = Pre-Requisite
+            course = pre_req[0]
+
+            #if the course already exists in dictionary 'rules', append otherwise create a new entry
+            if course in rules:
+                rules[course].append(pre_req[1])
+            else:
+                rules[course] = [pre_req[1]]
+
+        print(rules)
+
+        
+        for x in range(numCourses):
+            check_list = [False] * numCourses
+            if x in rules:
+                if self.check_if_cycle(x,rules,check_list):
+                    return False
+        
+        return True
+        
+
+    def check_if_cycle(self,course_num,rules,check_list):
+        print('coursenum',course_num)
+        if check_list[course_num]:
+            return True
+        
+        else:
+            check_list[course_num] = True
+            for x in rules[course_num]:
+                if x in rules:
+                    return self.check_if_cycle(x,rules,check_list)
+        
+        return False
+
+
+test = Solution()
+
+# print(test.canFinish(20,[[0,10],[3,18],[5,5],[6,11],[11,14],[13,1],[15,1],[17,4]]))
+# print(test.canFinish(3,[[1,0],[0,2],[2,1]]))
+
+
+
+#Expected Answer: True
+#print(test.canFinish(2,[[0, 1]]))
+#print(test.canFinish(5,[[1,4],[2,4],[3,1],[3,2]]))
+
+#Expected Answer: False
+#print(test.canFinish(8,[[1,0],[2,6],[1,7],[6,4],[7,0],[0,5]]))
+print(test.canFinish(4,[[0,1],[1,2],[0,3],[3,0]]))
+
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+        # #Returns True if there is a loop
+        # #Currently function is only checking if there is one level loop. Loop could be [0 -> 1 -> 2 -> 0].
+        # #Basically function needs to have a key start input and recurse until no more or loop.
+        # def check_loop(key,rules_dict,storage):
+        #     print('entered here!','key is :',key, ' and storage is :',storage)
+        #     if key in storage:
+                
+        #         return True
+        #     else:
+        #         storage[key] = []
+        #         pre_req = rules_dict[key]
+
+        #         #If they key itself is in pre_req, return True
+        #         if key in pre_req:
+        #             return True
+
+
+        #         for pr in pre_req:
+        #             storage[key].append(pr)
+        #             if pr in rules_dict:
+        #                 if check_loop(pr,rules_dict,storage):
+        #                     return True
+
+        #     return False
+        
+
+        # original_rules = rules.copy()
+        
+        # #Loop through adj. list
+        # while len(rules) > 0:
+        #     keys = list(rules.keys())
+        #     #vals = list(rules.values())
+        #     storage = {}
+        #     #pass function check here
+        #     print('main loop')
+        #     if check_loop(keys[0],original_rules,storage):
+        #         return False
+
+        #     rules.pop(keys[0])
+
+        # return True
+
+        # # #print(check_loop(rules))
+        # # if check_loop(rules):
+        # #     return False
+        # # else:
+        # #     return True
+
+
+
