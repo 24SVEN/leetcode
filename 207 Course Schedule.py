@@ -6,7 +6,7 @@ class Solution:
         #key is course | values is prereq
         rules = {}
 
-        #generate dictionary [AKA Adjacency list?]
+        #generate dictionary [Adjacency list]
         for pre_req in prerequisites:
             #pre_req[0] = Course
             #pre_req[1] = Pre-Requisite
@@ -20,28 +20,33 @@ class Solution:
 
         print(rules)
 
-        
+        tracking = {}
         for x in range(numCourses):
-            check_list = [False] * numCourses
+            check_list = {}
             if x in rules:
-                if self.check_if_cycle(x,rules,check_list):
+                if x not in tracking and self.check_if_cycle(x,rules,check_list,tracking):
                     return False
         
         return True
         
 
-    def check_if_cycle(self,course_num,rules,check_list):
-        print('coursenum',course_num)
-        if check_list[course_num]:
-            return True
-        
-        else:
-            check_list[course_num] = True
+    def check_if_cycle(self,course_num,rules,check_list,tracking):
+        check_list[course_num] = True
+        tracking[course_num] = True
+
+        if course_num in rules:
             for x in rules[course_num]:
-                if x in rules:
-                    return self.check_if_cycle(x,rules,check_list)
+                if x not in tracking and self.check_if_cycle(x,rules,check_list,tracking):
+                    return True
+                elif x in check_list:
+                    return True
         
+        #Don't understand this part
+        check_list.pop(course_num)
         return False
+
+        
+        #return False
 
 
 test = Solution()
@@ -57,8 +62,8 @@ test = Solution()
 
 #Expected Answer: False
 #print(test.canFinish(8,[[1,0],[2,6],[1,7],[6,4],[7,0],[0,5]]))
-print(test.canFinish(4,[[0,1],[1,2],[0,3],[3,0]]))
-
+#print(test.canFinish(4,[[0,1],[1,2],[0,3],[3,0]]))
+print(test.canFinish(2,[[1,0],[0,1]]))
 
 
 
