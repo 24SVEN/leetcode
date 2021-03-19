@@ -1,5 +1,5 @@
 from typing import List
-
+#https://www.youtube.com/watch?v=yPldqMtg-So&ab_channel=TimothyHChang
 class Solution:
     def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
         
@@ -41,7 +41,7 @@ class Solution:
                 elif x in check_list:
                     return True
         
-        #Don't understand this part
+        #We are popping the dictionary keys because these prerequisite courses shouldn't be marked as viisted (TRUE value) for the next x (the next course)
         check_list.pop(course_num)
         return False
 
