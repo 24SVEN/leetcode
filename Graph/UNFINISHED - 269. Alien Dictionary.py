@@ -32,7 +32,19 @@
 # 1 <= words[i].length <= 100
 # words[i] consists of only lowercase English letters.
 
-
+from typing import List
 class Solution:
     def alienOrder(self, words: List[str]) -> str:
+
+        alien_dict = {}
         
+        for ea_word in words:
+            for ea_char in ea_word:
+                if ea_char in alien_dict:
+                    pass
+                else:
+                    alien_dict[len(alien_dict)] = ea_char
+
+        print(alien_dict)
+test_case = Solution()
+test_case.alienOrder(['asd'])
